@@ -57,7 +57,7 @@ npm run dev
 
 ## 🗂️ Endpoints futuros (exemplos)
 
-POST /api/register → Cadastro de usuário
+POST /api/register → Cadastro de usuário ✔️
 
 POST /api/login → Autenticação com JWT
 
