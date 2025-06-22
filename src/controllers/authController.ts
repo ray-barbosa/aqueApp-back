@@ -6,15 +6,25 @@ import bcrypt from "bcryptjs";
 
 export const registerUser = async (req: Request, res: Response) : Promise<any>  => {
 
+
+
+
     try{
-        const { name, email, password, pronouns, userType } = req.body;
+
+        const { name, email, password, pronouns, userType, serviceTitle, category, description, imageUrl, contactInfo } = req.body;
 
 
         //basic validation
         if(!name || !email || !password || !userType ){
             return res.status(400).json({ message: "Missing required fields. "});
         }
-        //verify if email already exists
+        if(userType === "professional"){
+            
+            if(!serviceTitle || !category || !description) {
+
+                return res.status(400).json({ message: "Missing required fields for professional user." });
+            }
+        }      //verify if email already exists
         const userExists = await User.findOne({ email });
         if(userExists) {
             return res.status(409).json({ message: "Email alreadys in use. "})
@@ -30,7 +40,12 @@ export const registerUser = async (req: Request, res: Response) : Promise<any>  
             email,
             password: hashedPassword,
             pronouns,
-            userType
+            userType,
+            serviceTitle,
+            category,
+            description,
+            imageUrl,
+            contactInfo
         });
 
         await newUser.save();
@@ -41,7 +56,7 @@ export const registerUser = async (req: Request, res: Response) : Promise<any>  
                 id: newUser._id,
                 name: newUser.name,
                 email: newUser.email,
-                userType: newUser.userType
+                userType: newUser.userType,
             }
         });
     } catch (error) {
