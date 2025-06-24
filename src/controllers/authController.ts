@@ -6,9 +6,6 @@ import bcrypt from "bcryptjs";
 
 export const registerUser = async (req: Request, res: Response) : Promise<any>  => {
 
-
-
-
     try{
 
         const { name, email, password, pronouns, userType, serviceTitle, category, description, imageUrl, contactInfo } = req.body;
@@ -50,15 +47,32 @@ export const registerUser = async (req: Request, res: Response) : Promise<any>  
 
         await newUser.save();
 
+        const userResponse = {
+            id: newUser._id,
+            name: newUser.name,
+            email: newUser.email,
+            userType: newUser.userType,
+            pronouns: newUser.pronouns,
+        }
+
         // return sucess response (without pass!)
-        return res.status(201).json({
-            user: {
-                id: newUser._id,
-                name: newUser.name,
-                email: newUser.email,
-                userType: newUser.userType,
-            }
-        });
+        if (newUser.userType === "client" as typeof newUser.userType) {
+            return res.status(201).json({
+            userResponse,
+            message: "User registered successfully as a client."
+            });
+
+        } else if (newUser.userType === "professional") {
+            return res.status(201).json({
+            userResponse,
+            serviceTitle: newUser.serviceTitle,
+            category: newUser.category,
+            description: newUser.description,
+            imageUrl: newUser.imageUrl,
+            contactInfo: newUser.contactInfo,
+            message: "User registered successfully as a professional."
+            });
+        }
     } catch (error) {
         console.error("Error registering user:" , error);
         return res.status(500).json({message:"Internal server error: "})
