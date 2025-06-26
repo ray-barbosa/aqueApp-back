@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import User from "../models/User";
 import bcrypt from "bcryptjs";
+import { generateToken } from "../utils/generateToken";
 
 
 
@@ -79,3 +80,45 @@ export const registerUser = async (req: Request, res: Response) : Promise<any>  
     }
 };
 
+export const loginUser = async (req: Request, res: Response) : Promise<any>  => {
+    try {
+        const { email, password } = req.body;
+
+        // Basic validation
+        if (!email || !password) {
+            return res.status(400).json({ message: "Missing required fields." });
+        }
+
+        // Find user by email
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ message: "User not found." });
+        }
+
+        // Verify password
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(401).json({ message: "Invalid credentials." });
+        }
+
+        // Generate token
+        const token = generateToken(user._id as string);
+
+        // Return success response
+        return res.status(200).json({
+            user: {
+                id: user._id,
+                name: user.name,
+                email: user.email,
+                userType: user.userType,
+            },
+            token,
+        });
+
+
+    }
+    catch (error) {
+        console.error("Login error:", error);
+        return res.status(500).json({ message: "Internal server error." });
+    }
+};
