@@ -1,6 +1,7 @@
 # 💸 AquéApp — Backend
 
-Este é o backend da aplicação **AquéApp**, uma plataforma que conecta profissionais trans, não-binários e LGBTQIAPN+ a contratantes conscientes. A API é construída com **Node.js**, **Express** e **TypeScript**, e será responsável por autenticação, cadastro de usuários, criação de anúncios e muito mais.
+O **AquéApp** é uma plataforma que conecta profissionais trans, não-binários e LGBTQIAPN+ a contratantes conscientes. Este é o backend da aplicação, construído com **Node.js**, **Express**, **TypeScript**, e **MongoDB**, com autenticação via **JWT**.
+
 
 ---
 
@@ -28,6 +29,7 @@ aqueapp-back/
 │ ├── models/
 │ ├── routes/
 │ ├── middlewares/
+  ├── utils/ # Geração de token JWT
 │ ├── config/
 │ └── index.ts
 ├── .env
@@ -37,6 +39,19 @@ aqueapp-back/
 
 ```
 
+
+
+---
+
+## 🔐 Variáveis de ambiente (.env)
+
+```env
+PORT=4000
+MONGO_URI=mongodb+srv://...       # sua URI do MongoDB Atlas
+JWT_SECRET=chave_secreta
+JWT_EXPIRES_IN=7d
+
+```
 
 
 
@@ -55,35 +70,66 @@ npm run dev
 
 
 
-## 🗂️ Endpoints futuros (exemplos)
+## 📦 Endpoints disponíveis
 
-POST /api/register → Cadastro de usuário ✔️
 
-POST /api/login → Autenticação com JWT
-
-POST /api/ads → Criar anúncio (somente profissionais)
-
-GET /api/ads → Listar anúncios
-
-GET /api/users/:id → Perfil público
+| Método | Rota            | Descrição                                   | Autenticado |
+| ------ | --------------- | ------------------------------------------- | ----------- |
+| POST   | `/api/register` | Cria novo usuário (cliente ou profissional) | ❌           |
+| POST   | `/api/login`    | Login com email e senha, retorna JWT        | ❌           |
 
 
 
-## 🧩 Organização por etapas
-Este backend está sendo construído por etapas, com base em issues no GitHub.
-
-✅ Inicialização do projeto
-
-🔜 Autenticação com JWT
-
-🔜 CRUD de anúncios
-
-🔜 Perfis públicos
+## 🏳️‍⚧️ Profissionais
 
 
+| Método | Rota                     | Descrição                             | Autenticado  |
+| ------ | ------------------------ | ------------------------------------- | ------------ |
+| GET    | `/api/professionals`     | Lista todos os usuários profissionais | ❌            |
+| GET    | `/api/professionals/:id` | Retorna perfil público por ID         | ❌            |
+| PUT    | `/api/profile`           | Edita dados do próprio perfil         | ✅            |
+| DELETE | `/api/profile`           | Deleta a própria conta                | ✅ (pendente) |
 
-## 🏳️‍⚧️ Sobre o nome
-Aqué vem do Pajubá e significa “dinheiro”, reforçando a missão de gerar renda e empoderamento dentro da comunidade trans e LGBTQIAPN+.
 
-## 📄 Licença
-Este projeto está sob a licença MIT.
+
+## 📣 Anúncios (Ads) (em desenvolvimento)
+
+
+| Método | Rota           | Descrição                 |
+| ------ | -------------- | ------------------------- |
+| POST   | `/api/ads`     | Cria um novo anúncio      |
+| GET    | `/api/ads`     | Lista todos os anúncios   |
+| GET    | `/api/ads/:id` | Ver um anúncio específico |
+| PUT    | `/api/ads/:id` | Editar anúncio            |
+| DELETE | `/api/ads/:id` | Excluir anúncio           |
+
+
+
+## 🛠️ Funcionalidades já implementadas
+
+✅ Conexão com MongoDB Atlas
+
+✅ Cadastro com criptografia de senha (bcrypt)
+
+✅ Autenticação com JWT
+
+✅ Listagem de profissionais
+
+✅ Validação de campos específicos para professional
+
+✅ Tipagem com TypeScript
+
+✅ Separação de responsabilidades em controllers e models
+
+
+
+
+## 📌 Organização por Issues
+
+O projeto está sendo desenvolvido com base em issues numeradas e descritas no GitHub 
+
+
+
+## 🏳️‍🌈 Missão do projeto
+
+A palavra "Aqué" vem do Pajubá e significa "dinheiro". O objetivo da plataforma é fomentar a circulação de renda dentro da comunidade trans e LGBTQIAPN+, promovendo visibilidade, autonomia e acesso digno ao trabalho.
