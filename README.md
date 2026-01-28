@@ -70,7 +70,7 @@ npm run dev
 
 
 
-## 📦 Endpoints disponíveis
+## 📦 Endpoints primarios
 
 
 | Método | Rota            | Descrição                                   | Autenticado |
@@ -80,19 +80,20 @@ npm run dev
 
 
 
-## 🏳️‍⚧️ Profissionais
+## 🏳️‍⚧️ Profissionais (a fazer)
 
 
 | Método | Rota                     | Descrição                             | Autenticado  |
 | ------ | ------------------------ | ------------------------------------- | ------------ |
 | GET    | `/api/professionals`     | Lista todos os usuários profissionais | ❌            |
 | GET    | `/api/professionals/:id` | Retorna perfil público por ID         | ❌            |
+| GET    | `/api/profile/:id`       | Edita dados do próprio perfil         | ✅            |
 | PUT    | `/api/profile`           | Edita dados do próprio perfil         | ✅            |
 | DELETE | `/api/profile`           | Deleta a própria conta                | ✅ (pendente) |
 
 
 
-## 📣 Anúncios (Ads) (em desenvolvimento)
+## 📣 Anúncios (Ads) (a fazer)
 
 
 | Método | Rota           | Descrição                 |
@@ -102,24 +103,6 @@ npm run dev
 | GET    | `/api/ads/:id` | Ver um anúncio específico |
 | PUT    | `/api/ads/:id` | Editar anúncio            |
 | DELETE | `/api/ads/:id` | Excluir anúncio           |
-
-
-
-## 🛠️ Funcionalidades já implementadas
-
-✅ Conexão com MongoDB Atlas
-
-✅ Cadastro com criptografia de senha (bcrypt)
-
-✅ Autenticação com JWT
-
-✅ Listagem de profissionais
-
-✅ Validação de campos específicos para professional
-
-✅ Tipagem com TypeScript
-
-✅ Separação de responsabilidades em controllers e models
 
 
 
